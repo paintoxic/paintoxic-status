@@ -1,0 +1,19 @@
+   ____       _      ___   _   _   _____    ___   __  __  ___    ____
+  |  _ \     / \    |_ _| | \ | | |_   _|  / _ \  \ \/ / |_ _|  / ___|
+  | |_) |   / _ \    | |  |  \| |   | |   | | | |  \  /   | |  | |
+  |  __/   / ___ \   | |  | |\  |   | |   | |_| |  /  \   | |  | |___
+  |_|     /_/   \_\ |___| |_| \_|   |_|    \___/  /_/\_\ |___|  \____|
+
+/* TEAM */
+  On-call engineer: Paintoxic
+  Role: DevOps & SRE @ Yuno
+  Location: Bogota, Colombia
+  GitHub: github.com/paintoxic
+  X: @Paintox1c
+
+/* SITE */
+  Last update: auto, every Tuesday after the weekly reset
+  Standards: HTML5, CSS3
+  Built with: Astro, TypeScript, GitHub Actions, GitHub Pages
+  Data: Raider.io API, GitHub GraphQL API
+  Uptime SLA: best effort, unless there's a +15 key pending
