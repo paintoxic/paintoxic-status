@@ -1,0 +1,76 @@
+---
+import { formatDate, t, type Locale } from "../i18n/index.ts";
+import { characterStatus } from "../lib/status.ts";
+import type { CharacterConfig, CharacterData } from "../lib/types.ts";
+import StatusDot from "./StatusDot.astro";
+interface Props { locale: Locale; cards: { config: CharacterConfig; data: CharacterData | null }[] }
+const { locale, cards } = Astro.props;
+const d = t(locale);
+const nf = new Intl.NumberFormat(locale === "es" ? "es-CO" : "en-US", { maximumFractionDigits: 1 });
+const fmt = (n: number | null) => (n === null ? "—" : nf.format(n));
+const fallbackUrl = (c: CharacterConfig) => `https://raider.io/characters/${c.region}/${c.realm}/${encodeURIComponent(c.name)}`;
+---
+<section aria-labelledby="m-h">
+  <h2 id="m-h">{d.mythic.title}</h2>
+  <p class="sub">{d.mythic.subtitle}</p>
+  <ul class="list">
+    {cards.map(({ config, data }) => {
+      const status = characterStatus(data);
+      const who = data ? [data.race, data.spec, data.className].filter(Boolean).join(" ") : "";
+      const run = data?.lastRun;
+      return (
+        <li>
+          <div class="row">
+            <div class="id">
+              {data?.thumbnailUrl ? <img src={data.thumbnailUrl} alt="" width="44" height="44" loading="lazy" /> : <span class="ph" aria-hidden="true" />}
+              <div>
+                <h3><a href={data?.profileUrl ?? fallbackUrl(config)}>{config.name}</a></h3>
+                <p class="meta">{who && <>{who} · </>}<span class="realm">{data?.realm ?? config.realm} ({config.region.toUpperCase()})</span></p>
+              </div>
+            </div>
+            <StatusDot status={status} label={d.status[status]} />
+          </div>
+          <div class="stats mono">
+            <span><span class="k">{d.mythic.score}</span> <strong class="score">{fmt(data?.score ?? null)}</strong></span>
+            <span><span class="k">{d.mythic.ilvl}</span> <strong>{fmt(data?.itemLevel ?? null)}</strong></span>
+          </div>
+          <p class="event mono">
+            <span class="k">{d.mythic.latestEvent}</span>{" "}
+            {run ? (
+              <>
+                <a href={run.url || data!.profileUrl}>{run.dungeon} +{run.level}</a>{" "}
+                <span class:list={[run.upgrades > 0 ? "timed" : "depleted"]}>{run.upgrades > 0 ? `${d.mythic.timed} (+${run.upgrades})` : d.mythic.depleted}</span>
+                <span class="when"> · {formatDate(run.completedAt, locale)}</span>
+              </>
+            ) : (
+              <span class="none">{d.mythic.noRuns}</span>
+            )}
+          </p>
+        </li>
+      );
+    })}
+  </ul>
+</section>
+<style>
+  section { margin-top: 2.5rem; }
+  h2 { margin: 0; font-size: 1.15rem; }
+  .sub { margin: 0.15rem 0 0.75rem; color: var(--muted); font-size: 0.9rem; }
+  .list { list-style: none; margin: 0; padding: 0; border: 1px solid var(--line); border-radius: 8px; background: var(--surface-2); }
+  li { padding: 1rem 1.25rem; }
+  li + li { border-top: 1px solid var(--line); }
+  .row { display: flex; justify-content: space-between; align-items: center; gap: 1rem; }
+  .id { display: flex; gap: 0.8rem; align-items: center; min-width: 0; }
+  img, .ph { width: 44px; height: 44px; border-radius: 6px; flex: none; background: var(--surface); }
+  h3 { margin: 0; font-size: 1rem; }
+  h3 a { color: var(--text); text-decoration: none; }
+  h3 a:hover { color: var(--accent); }
+  .meta { margin: 0; color: var(--text-2); font-size: 0.88rem; }
+  .realm { text-transform: capitalize; }
+  .stats { display: flex; flex-wrap: wrap; gap: 0.4rem 1.5rem; margin-top: 0.75rem; font-size: 0.85rem; }
+  .k { color: var(--muted); }
+  .score { color: var(--purple); }
+  .event { margin: 0.35rem 0 0; font-size: 0.82rem; color: var(--text-2); }
+  .timed { color: var(--green); }
+  .depleted { color: var(--yellow); }
+  .when, .none { color: var(--muted); }
+</style>

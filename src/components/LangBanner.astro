@@ -1,0 +1,29 @@
+---
+import { t } from "../i18n/index.ts";
+const d = t("es");
+---
+<div class="lang-banner" lang="en" hidden>
+  <a href="/en/" data-store="en">{d.banner.text}</a>
+  <button type="button" data-store="es" lang="es">{d.banner.dismiss}</button>
+</div>
+<script>
+  import { decideLangAction } from "../lib/lang.ts";
+  const banner = document.querySelector<HTMLElement>(".lang-banner");
+  let stored: string | null = null;
+  try { stored = localStorage.getItem("lang"); } catch {}
+  if (banner && decideLangAction({ path: location.pathname, stored, navigatorLanguages: navigator.languages ?? [] }) === "show-banner") {
+    banner.hidden = false;
+    banner.querySelectorAll<HTMLElement>("[data-store]").forEach((el) =>
+      el.addEventListener("click", () => {
+        try { localStorage.setItem("lang", el.dataset.store!); } catch {}
+        if (el.tagName === "BUTTON") banner.hidden = true;
+      }),
+    );
+  }
+</script>
+<style>
+  .lang-banner { display: flex; justify-content: center; align-items: center; gap: 1rem; flex-wrap: wrap; padding: 0.55rem 1rem; background: var(--surface); font-size: 0.9rem; }
+  .lang-banner[hidden] { display: none; }
+  button { background: none; border: 1px solid var(--line); color: var(--text-2); border-radius: 4px; padding: 0.2rem 0.6rem; font: inherit; font-size: 0.82rem; cursor: pointer; }
+  button:hover { color: var(--text); }
+</style>

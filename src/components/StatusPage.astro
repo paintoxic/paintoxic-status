@@ -1,0 +1,50 @@
+---
+import Base from "../layouts/Base.astro";
+import Header from "./Header.astro";
+import Hero from "./Hero.astro";
+import UptimeBar from "./UptimeBar.astro";
+import ComponentList from "./ComponentList.astro";
+import MythicPlus from "./MythicPlus.astro";
+import Dependencies from "./Dependencies.astro";
+import Footer from "./Footer.astro";
+import LangBanner from "./LangBanner.astro";
+import { t, type Locale } from "../i18n/index.ts";
+import { characterKey, characterStatus, lastNDays, overallStatus, uptimeEndDate } from "../lib/status.ts";
+import type { CharacterConfig, Snapshot, Status } from "../lib/types.ts";
+import snapshotJson from "../data/snapshot.json";
+import charactersJson from "../data/characters.json";
+
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const d = t(locale);
+const snapshot = snapshotJson as Snapshot;
+const config = charactersJson as CharacterConfig[];
+
+const byKey = new Map(snapshot.characters.map((c) => [c.key, c]));
+const cards = config.map((c) => ({ config: c, data: byKey.get(characterKey(c)) ?? null }));
+const today = new Date().toISOString().slice(0, 10);
+const days = lastNDays(snapshot.contributions, uptimeEndDate(snapshot.contributions, today));
+const statuses: Status[] = [
+  ...d.components.items.map(() => "operational" as const),
+  ...cards.map((c) => characterStatus(c.data)),
+];
+const overall = overallStatus(statuses);
+const title = `Paintoxic · ${d.header.subtitle[0]!.toUpperCase()}${d.header.subtitle.slice(1)}`;
+---
+<Base locale={locale} title={title} description={`${d.hero.role} — ${d.hero.tagline}`}>
+  {locale === "es" && <LangBanner />}
+  <div class="wrap">
+    <Header locale={locale} />
+    <main>
+      <Hero locale={locale} overall={overall} />
+      <UptimeBar locale={locale} days={days} hasData={snapshot.contributions !== null} />
+      <ComponentList locale={locale} />
+      <MythicPlus locale={locale} cards={cards} />
+      <Dependencies locale={locale} />
+    </main>
+    <Footer locale={locale} updatedAt={snapshot.updatedAt} />
+  </div>
+</Base>
+<style>
+  .wrap { max-width: 47.5rem; margin: 0 auto; padding: 0 1.25rem; }
+</style>

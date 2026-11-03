@@ -1,0 +1,28 @@
+---
+import { t, type Locale } from "../i18n/index.ts";
+import { stack, type GroupKey } from "../data/content.ts";
+interface Props { locale: Locale }
+const d = t(Astro.props.locale);
+const groups = Object.entries(stack) as [GroupKey, readonly string[]][];
+---
+<section aria-labelledby="deps-h">
+  <h2 id="deps-h">{d.deps.title}</h2>
+  <dl>
+    {groups.map(([key, items]) => (
+      <div class="grp">
+        <dt>{d.deps.groups[key]}</dt>
+        <dd>{items.map((i) => <span class="chip mono">{i}</span>)}</dd>
+      </div>
+    ))}
+  </dl>
+</section>
+<style>
+  section { margin-top: 2.5rem; }
+  h2 { margin: 0 0 0.75rem; font-size: 1.15rem; }
+  dl { margin: 0; display: grid; gap: 0.55rem; }
+  .grp { display: grid; grid-template-columns: 11rem 1fr; gap: 0.75rem; align-items: baseline; }
+  dt { color: var(--muted); font-size: 0.9rem; }
+  dd { margin: 0; display: flex; flex-wrap: wrap; gap: 0.35rem; }
+  .chip { font-size: 0.78rem; color: var(--accent); background: var(--surface-2); border: 1px solid var(--line); padding: 0.1rem 0.5rem; border-radius: 4px; }
+  @media (max-width: 520px) { .grp { grid-template-columns: 1fr; gap: 0.3rem; } }
+</style>

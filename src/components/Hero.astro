@@ -1,0 +1,41 @@
+---
+import { t, type Locale } from "../i18n/index.ts";
+import { avatarUrl, yunoUrl } from "../data/content.ts";
+interface Props { locale: Locale; overall: "operational" | "degraded" }
+const { locale, overall } = Astro.props;
+const d = t(locale);
+const [place, onCall] = d.hero.location.split(" · ");
+---
+<section class="hero">
+  <div class="who">
+    <img src={avatarUrl} alt="" width="72" height="72" />
+    <div>
+      <h1>Paintoxic</h1>
+      <p class="role">{d.hero.role}</p>
+      <p class="where">{place} · <a href={yunoUrl}>{onCall}</a></p>
+    </div>
+  </div>
+  <p class="intro">{d.hero.intro}</p>
+  <div class:list={["banner", overall]} role="status">
+    <span class="state"><span class="pulse" aria-hidden="true"></span><strong>{d.overall[overall]}</strong></span>
+    <span class="tag mono">{d.hero.tagline}</span>
+  </div>
+</section>
+<style>
+  .hero { padding: 1.5rem 0 0.5rem; }
+  .who { display: flex; gap: 1.1rem; align-items: center; }
+  img { border-radius: 50%; border: 2px solid var(--line); flex: none; }
+  h1 { margin: 0; font-size: clamp(2rem, 6vw, 2.75rem); line-height: 1.05; font-weight: 700; letter-spacing: -0.02em; }
+  .role { margin: 0.2rem 0 0; color: var(--text); font-weight: 500; }
+  .where { margin: 0; color: var(--text-2); font-size: 0.95rem; }
+  .intro { color: var(--text-2); max-width: 62ch; margin: 1.25rem 0 1.75rem; }
+  .banner { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem 0.9rem; padding: 1.1rem 1.25rem; border-radius: 8px; color: var(--bg); font-size: 1.15rem; }
+  .banner.operational { background: var(--green); }
+  .banner.degraded { background: var(--yellow); }
+  .banner .tag { margin-left: auto; font-size: 0.8rem; opacity: 0.75; }
+  .state { display: inline-flex; align-items: center; gap: 0.9rem; }
+  .pulse { flex: none;  width: 0.7rem; height: 0.7rem; border-radius: 50%; background: var(--bg); box-shadow: 0 0 0 0 rgb(26 27 38 / 0.5); animation: pulse 2.4s ease-out infinite; }
+  @keyframes pulse { 70% { box-shadow: 0 0 0 10px rgb(26 27 38 / 0); } 100% { box-shadow: 0 0 0 0 rgb(26 27 38 / 0); } }
+  @media (max-width: 520px) { .banner .tag { margin-left: 0; width: 100%; } }
+  @media (prefers-reduced-motion: reduce) { .pulse { animation: none; } }
+</style>

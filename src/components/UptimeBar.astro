@@ -1,0 +1,50 @@
+---
+import { formatDate, t, type Locale } from "../i18n/index.ts";
+import { uptimePercent } from "../lib/status.ts";
+import type { ContributionDay } from "../lib/types.ts";
+interface Props { locale: Locale; days: ContributionDay[]; hasData: boolean }
+const { locale, days, hasData } = Astro.props;
+const d = t(locale);
+const pct = uptimePercent(days);
+const pctText = hasData ? `${pct.toLocaleString(locale === "es" ? "es-CO" : "en-US", { minimumFractionDigits: 1 })}%` : "—";
+---
+<section class="uptime" aria-labelledby="uptime-h">
+  <div class="head">
+    <h2 id="uptime-h">{d.uptime.title}</h2>
+    <p class="pct mono"><strong>{pctText}</strong> <span>{d.uptime.label}</span></p>
+  </div>
+  <div class="bars" role="img" aria-label={`${pctText} ${d.uptime.label}`}>
+    {days.map((day, i) => {
+      const tip = d.uptime.tooltip(formatDate(`${day.date}T00:00:00Z`, locale), day.count);
+      return <span class:list={["bar", day.count > 0 ? "on" : "off", i < days.length - 30 && "old"]} data-tip={tip} title={tip} style={`--i:${i}`} />;
+    })}
+  </div>
+  <div class="scale mono"><span class="from-90">{d.uptime.ago}</span><span>{d.uptime.today}</span></div>
+</section>
+<style>
+  .uptime { margin-top: 2.5rem; }
+  .head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: baseline; gap: 0.25rem 1rem; margin-bottom: 0.75rem; }
+  h2 { margin: 0; font-size: 1.15rem; }
+  .pct { margin: 0; font-size: 0.8rem; color: var(--muted); }
+  .pct strong { color: var(--green); font-size: 1rem; font-weight: 600; }
+  .bars { display: flex; gap: 2px; height: 2.6rem; align-items: stretch; }
+  .bar { flex: 1; border-radius: 2px; position: relative; transform-origin: bottom; animation: grow 0.6s cubic-bezier(.2,.7,.2,1) both; animation-delay: calc(var(--i) * 8ms); }
+  .bar.on { background: var(--green); }
+  .bar.off { background: var(--surface); }
+  .bar:hover { filter: brightness(1.25); }
+  .bar:hover::after {
+    content: attr(data-tip); position: absolute; bottom: calc(100% + 8px); left: 50%; transform: translateX(-50%);
+    background: var(--surface); color: var(--text); border: 1px solid var(--line); font: 0.75rem var(--mono);
+    padding: 0.35rem 0.55rem; border-radius: 4px; white-space: nowrap; z-index: 2; pointer-events: none;
+  }
+  .bar:nth-child(-n + 12):hover::after { left: 0; transform: none; }
+  .bar:nth-last-child(-n + 12):hover::after { left: auto; right: 0; transform: none; }
+  .scale { display: flex; justify-content: space-between; color: var(--muted); font-size: 0.75rem; margin-top: 0.4rem; }
+  @keyframes grow { from { transform: scaleY(0.15); opacity: 0; } }
+  @media (prefers-reduced-motion: reduce) { .bar { animation: none; } }
+  @media (max-width: 640px) {
+    .bar.old { display: none; }
+    .bars { gap: 3px; }
+    .from-90 { visibility: hidden; }
+  }
+</style>

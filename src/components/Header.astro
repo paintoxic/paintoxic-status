@@ -1,0 +1,29 @@
+---
+import { t, type Locale } from "../i18n/index.ts";
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const d = t(locale);
+---
+<header class="top">
+  <a class="brand mono" href={locale === "es" ? "/" : "/en/"}>paintoxic.io <span>/ {d.header.subtitle}</span></a>
+  <nav class="lang mono" aria-label={d.lang.switch}>
+    <a href="/" data-lang="es" hreflang="es" lang="es" aria-current={locale === "es" ? "page" : undefined}>ES</a>
+    <a href="/en/" data-lang="en" hreflang="en" lang="en" aria-current={locale === "en" ? "page" : undefined}>EN</a>
+  </nav>
+</header>
+<script>
+  document.querySelectorAll<HTMLAnchorElement>("a[data-lang]").forEach((a) =>
+    a.addEventListener("click", () => {
+      try { localStorage.setItem("lang", a.dataset.lang!); } catch {}
+    }),
+  );
+</script>
+<style>
+  .top { display: flex; justify-content: space-between; align-items: center; padding: 1.25rem 0; }
+  .brand { color: var(--text); text-decoration: none; font-weight: 600; }
+  .brand span { color: var(--muted); font-weight: 400; }
+  .lang { display: flex; gap: 0.25rem; font-size: 0.85rem; }
+  .lang a { color: var(--muted); text-decoration: none; padding: 0.2rem 0.5rem; border-radius: 4px; }
+  .lang a[aria-current="page"] { color: var(--bg); background: var(--accent); }
+  .lang a:not([aria-current]):hover { color: var(--text); }
+</style>

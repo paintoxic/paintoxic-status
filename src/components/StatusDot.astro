@@ -1,0 +1,13 @@
+---
+import type { Status } from "../lib/types.ts";
+interface Props { status: Status; label: string }
+const { status, label } = Astro.props;
+---
+<span class:list={["pill", "mono", status]}><span class="dot" aria-hidden="true"></span>{label}</span>
+<style>
+  .pill { display: inline-flex; align-items: center; gap: 0.45em; font-size: 0.8rem; white-space: nowrap; }
+  .dot { width: 0.55em; height: 0.55em; border-radius: 50%; background: currentColor; }
+  .operational { color: var(--green); }
+  .degraded { color: var(--yellow); }
+  .no_data { color: var(--muted); }
+</style>

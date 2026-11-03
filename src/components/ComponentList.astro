@@ -1,0 +1,27 @@
+---
+import { t, type Locale } from "../i18n/index.ts";
+import StatusDot from "./StatusDot.astro";
+interface Props { locale: Locale }
+const d = t(Astro.props.locale);
+---
+<section aria-labelledby="comp-h">
+  <h2 id="comp-h">{d.components.title}</h2>
+  <ul class="list">
+    {d.components.items.map((c) => (
+      <li>
+        <div class="row"><h3>{c.title}</h3><StatusDot status="operational" label={d.status.operational} /></div>
+        <p>{c.description}</p>
+      </li>
+    ))}
+  </ul>
+</section>
+<style>
+  section { margin-top: 2.5rem; }
+  h2 { margin: 0 0 0.75rem; font-size: 1.15rem; }
+  .list { list-style: none; margin: 0; padding: 0; border: 1px solid var(--line); border-radius: 8px; background: var(--surface-2); }
+  li { padding: 1rem 1.25rem; }
+  li + li { border-top: 1px solid var(--line); }
+  .row { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; }
+  h3 { margin: 0; font-size: 1rem; font-weight: 600; }
+  p { margin: 0.3rem 0 0; color: var(--text-2); font-size: 0.92rem; max-width: 62ch; }
+</style>

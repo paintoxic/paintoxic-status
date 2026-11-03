@@ -1,0 +1,37 @@
+{
+  "name": "Paintóxic",
+  "race": "Blood Elf",
+  "class": "Paladin",
+  "active_spec_name": "Holy",
+  "thumbnail_url": "https://render.worldofwarcraft.com/us/character/ragnaros/182/136805814-avatar.jpg?alt=/wow/static/images/2d/avatar/10-1.jpg",
+  "region": "us",
+  "realm": "Ragnaros",
+  "profile_url": "https://raider.io/characters/us/ragnaros/Paintóxic",
+  "gear": {
+    "item_level_equipped": 323.25
+  },
+  "mythic_plus_scores_by_season": [
+    {
+      "season": "season-mn-2",
+      "scores": {
+        "all": 3144.9
+      }
+    }
+  ],
+  "mythic_plus_recent_runs": [
+    {
+      "dungeon": "Den of Nalorakk",
+      "mythic_level": 14,
+      "completed_at": "2026-10-20T01:00:00.000Z",
+      "num_keystone_upgrades": 2,
+      "url": "https://raider.io/mythic-plus-runs/season-mn-2/21054996-14-den-of-nalorakk"
+    },
+    {
+      "dungeon": "Kings' Rest",
+      "mythic_level": 14,
+      "completed_at": "2026-10-27T02:19:16.000Z",
+      "num_keystone_upgrades": 0,
+      "url": "https://raider.io/mythic-plus-runs/season-mn-2/23263420-14-kings-rest"
+    }
+  ]
+}
