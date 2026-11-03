@@ -1,6 +1,8 @@
 ---
 import { t, type Locale } from "../i18n/index.ts";
-import { avatarUrl, yunoUrl } from "../data/content.ts";
+import { Image } from "astro:assets";
+import { yunoUrl } from "../data/content.ts";
+import avatar from "../assets/avatar.png";
 interface Props { locale: Locale; overall: "operational" | "degraded" }
 const { locale, overall } = Astro.props;
 const d = t(locale);
@@ -8,7 +10,7 @@ const [place, onCall] = d.hero.location.split(" · ");
 ---
 <section class="hero">
   <div class="who">
-    <img src={avatarUrl} alt="" width="72" height="72" />
+    <Image src={avatar} alt="" width={72} height={72} densities={[1, 2]} format="webp" loading="eager" fetchpriority="high" />
     <div>
       <h1>Paintoxic</h1>
       <p class="role">{d.hero.role}</p>

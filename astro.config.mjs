@@ -4,6 +4,7 @@ import sitemap from "@astrojs/sitemap";
 
 export default defineConfig({
   site: "https://paintoxic.io",
+  build: { inlineStylesheets: "always" },
   i18n: {
     locales: ["es", "en"],
     defaultLocale: "es",

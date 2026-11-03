@@ -22,3 +22,20 @@ describe("decideLangAction", () => {
     expect(decideLangAction({ path: "/", stored: null, navigatorLanguages: ["ES"] })).toBe("none");
   });
 });
+
+import { notFoundLocale } from "../src/lib/lang.ts";
+
+describe("notFoundLocale", () => {
+  it("uses English under /en/", () => {
+    expect(notFoundLocale({ path: "/en/missing", stored: null })).toBe("en");
+    expect(notFoundLocale({ path: "/en/missing", stored: "es" })).toBe("en");
+  });
+  it("uses the stored choice elsewhere", () => {
+    expect(notFoundLocale({ path: "/missing", stored: "en" })).toBe("en");
+    expect(notFoundLocale({ path: "/missing", stored: "es" })).toBe("es");
+  });
+  it("defaults to Spanish", () => {
+    expect(notFoundLocale({ path: "/missing", stored: null })).toBe("es");
+    expect(notFoundLocale({ path: "/english", stored: null })).toBe("es");
+  });
+});

@@ -11,3 +11,9 @@ export function decideLangAction(args: {
   const speaksSpanish = args.navigatorLanguages.some((l) => l.toLowerCase().startsWith("es"));
   return speaksSpanish ? "none" : "show-banner";
 }
+
+/** Language for the shared 404 page: /en/* or a stored "en" choice → English, else Spanish. */
+export function notFoundLocale(args: { path: string; stored: string | null }): "es" | "en" {
+  if (args.path.startsWith("/en/")) return "en";
+  return args.stored === "en" ? "en" : "es";
+}

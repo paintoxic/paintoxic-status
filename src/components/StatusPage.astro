@@ -9,6 +9,7 @@ import Dependencies from "./Dependencies.astro";
 import Footer from "./Footer.astro";
 import LangBanner from "./LangBanner.astro";
 import { t, type Locale } from "../i18n/index.ts";
+import { pageTitle } from "../lib/seo.ts";
 import { characterKey, characterStatus, lastNDays, overallStatus, uptimeEndDate } from "../lib/status.ts";
 import type { CharacterConfig, Snapshot, Status } from "../lib/types.ts";
 import snapshotJson from "../data/snapshot.json";
@@ -29,7 +30,7 @@ const statuses: Status[] = [
   ...cards.map((c) => characterStatus(c.data)),
 ];
 const overall = overallStatus(statuses);
-const title = `Paintoxic · ${d.header.subtitle[0]!.toUpperCase()}${d.header.subtitle.slice(1)}`;
+const title = pageTitle(locale);
 ---
 <Base locale={locale} title={title} description={`${d.hero.role} — ${d.hero.tagline}`}>
   {locale === "es" && <LangBanner />}

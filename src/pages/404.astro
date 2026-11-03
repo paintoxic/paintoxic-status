@@ -1,0 +1,81 @@
+---
+// GitHub Pages serves this single page for every missing URL, so it carries both languages.
+// The inline script picks one before paint, mirroring notFoundLocale() in src/lib/lang.ts.
+import Base from "../layouts/Base.astro";
+import Header from "../components/Header.astro";
+
+const copy = {
+  es: {
+    title: "404 · Incidente: página no encontrada · paintoxic.io",
+    banner: "Incidente: 404 — página no encontrada",
+    steps: [
+      ["Investigando", "La URL que pediste no existe en este servicio."],
+      ["Identificado", "Probablemente un link viejo o un typo."],
+    ],
+    fix: "Mitigación",
+    back: "Volver al estado",
+    href: "/",
+  },
+  en: {
+    title: "404 · Incident: page not found · paintoxic.io",
+    banner: "Incident: 404 — page not found",
+    steps: [
+      ["Investigating", "The URL you requested doesn't exist on this service."],
+      ["Identified", "Most likely an old link or a typo."],
+    ],
+    fix: "Mitigation",
+    back: "Back to status",
+    href: "/en/",
+  },
+} as const;
+const enTitle = copy.en.title;
+---
+
+<Base locale="es" title={copy.es.title} description="Esta página no existe. / This page doesn't exist.">
+  <Fragment slot="head">
+    <meta name="robots" content="noindex" />
+    <script is:inline define:vars={{ enTitle }}>
+      try {
+        var p = location.pathname, s = null;
+        try { s = localStorage.getItem("lang"); } catch (e) {}
+        if (p.indexOf("/en/") === 0 || s === "en") {
+          document.documentElement.lang = "en";
+          document.documentElement.classList.add("nf-en");
+          document.title = enTitle;
+        }
+      } catch (e) {}
+    </script>
+  </Fragment>
+  {(["es", "en"] as const).map((l) => {
+    const c = copy[l];
+    return (
+      <div class="wrap" data-l={l} lang={l}>
+        <Header locale={l} />
+        <main>
+          <div class="banner" role="status">
+            <span class="dot" aria-hidden="true"></span>
+            <strong>{c.banner}</strong>
+          </div>
+          <ol class="timeline mono">
+            {c.steps.map(([k, v]) => <li><span class="k">{k}</span> {v}</li>)}
+            <li><span class="k">{c.fix}</span> <a href={c.href}>{c.back}</a></li>
+          </ol>
+        </main>
+      </div>
+    );
+  })}
+</Base>
+
+<style is:global>
+  html:not(.nf-en) [data-l="en"],
+  html.nf-en [data-l="es"] { display: none; }
+</style>
+<style>
+  .wrap { max-width: 47.5rem; margin: 0 auto; padding: 0 1.25rem 4rem; }
+  .banner { display: flex; align-items: center; gap: 0.9rem; margin-top: 2rem; padding: 1.1rem 1.25rem; border-radius: 8px; background: var(--yellow); color: var(--bg); font-size: 1.15rem; }
+  .dot { width: 0.7rem; height: 0.7rem; border-radius: 50%; background: var(--bg); flex: none; }
+  .timeline { list-style: none; margin: 1.5rem 0 0; padding: 0; border: 1px solid var(--line); border-radius: 8px; background: var(--surface-2); font-size: 0.88rem; }
+  .timeline li { padding: 0.9rem 1.25rem; color: var(--text-2); }
+  .timeline li + li { border-top: 1px solid var(--line); }
+  .k { display: inline-block; min-width: 8.5rem; color: var(--yellow); }
+</style>

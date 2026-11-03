@@ -1,5 +1,15 @@
 ---
 import type { Locale } from "../i18n/index.ts";
+import { personJsonLd, SITE } from "../lib/seo.ts";
+import "@fontsource/instrument-sans/latin-400.css";
+import "@fontsource/instrument-sans/latin-500.css";
+import "@fontsource/instrument-sans/latin-600.css";
+import "@fontsource/instrument-sans/latin-700.css";
+import "@fontsource/fira-code/latin-400.css";
+import "@fontsource/fira-code/latin-500.css";
+import "@fontsource/fira-code/latin-600.css";
+import sans400 from "@fontsource/instrument-sans/files/instrument-sans-latin-400-normal.woff2?url";
+import sans700 from "@fontsource/instrument-sans/files/instrument-sans-latin-700-normal.woff2?url";
 
 interface Props {
   locale: Locale;
@@ -7,6 +17,10 @@ interface Props {
   description: string;
 }
 const { locale, title, description } = Astro.props;
+const url = `${SITE}${locale === "es" ? "/" : "/en/"}`;
+const ogLocale = locale === "es" ? "es_CO" : "en_US";
+const ogAlt = locale === "es" ? "en_US" : "es_CO";
+const jsonLd = JSON.stringify(personJsonLd(locale));
 ---
 
 <!doctype html>
@@ -22,20 +36,29 @@ const { locale, title, description } = Astro.props;
     <title>{title}</title>
     <meta name="description" content={description} />
     <meta name="theme-color" content="#1a1b26" />
+    <meta property="og:type" content="profile" />
+    <meta property="og:site_name" content="paintoxic.io" />
+    <meta property="og:url" content={url} />
     <meta property="og:title" content={title} />
     <meta property="og:description" content={description} />
-    <meta property="og:image" content="https://avatars.githubusercontent.com/u/52616558?v=4" />
-    <link rel="canonical" href={new URL(locale === "es" ? "/" : "/en/", Astro.site)} />
+    <meta property="og:locale" content={ogLocale} />
+    <meta property="og:locale:alternate" content={ogAlt} />
+    <meta property="og:image" content={`${SITE}/og.png`} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="paintoxic.io / status — All systems operational" />
+    <meta property="profile:username" content="paintoxic" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@Paintox1c" />
+    <script type="application/ld+json" set:html={jsonLd} />
+    <slot name="head" />
+    <link rel="canonical" href={url} />
     <link rel="alternate" hreflang="es" href="https://paintoxic.io/" />
     <link rel="alternate" hreflang="en" href="https://paintoxic.io/en/" />
     <link rel="alternate" hreflang="x-default" href="https://paintoxic.io/" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Instrument+Sans:wght@400;500;600;700&display=swap"
-    />
+    <link rel="preload" href={sans400} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={sans700} as="font" type="font/woff2" crossorigin />
   </head>
   <body>
     <slot />
@@ -50,7 +73,7 @@ const { locale, title, description } = Astro.props;
     --line: #292e42;
     --text: #c0caf5;
     --text-2: #a9b1d6;
-    --muted: #565f89;
+    --muted: #8089b3;
     --accent: #7aa2f7;
     --green: #9ece6a;
     --yellow: #e0af68;
