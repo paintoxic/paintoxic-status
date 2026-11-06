@@ -59,6 +59,7 @@ export const es: Dict = {
       cloud: "Nube",
       cncf: "CNCF",
       monitoring: "Monitoreo",
+      ai: "IA y agentes",
     },
   },
   mythic: {

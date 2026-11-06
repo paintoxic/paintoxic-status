@@ -56,6 +56,7 @@ export const en = {
       cloud: "Cloud",
       cncf: "CNCF",
       monitoring: "Monitoring",
+      ai: "AI & agents",
     },
   },
   mythic: {

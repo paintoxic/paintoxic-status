@@ -9,8 +9,9 @@ export const stack = {
   os: ["Linux <3"],
   architecture: ["microservices", "event-driven", "clean architecture", "tdd"],
   cloud: ["AWS"],
-  cncf: ["argo-cd", "argo-workflows", "testkube"],
+  cncf: ["argo-cd", "argo-workflows", "argo-rollouts", "testkube"],
   monitoring: ["Prometheus", "Grafana", "ELK Stack"],
+  ai: ["SDD", "Claude Code", "Codex", "OpenCode", "OpenClaw"],
 } as const;
 
 export type GroupKey = keyof typeof stack;
