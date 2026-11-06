@@ -1,25 +1,15 @@
 ---
 import { formatDate, t, type Locale } from "../i18n/index.ts";
-import { links } from "../data/content.ts";
 interface Props { locale: Locale; updatedAt: string | null }
 const { locale, updatedAt } = Astro.props;
 const d = t(locale);
 ---
 <footer>
   <p class="motto">{d.hero.motto}</p>
-  <nav aria-label={d.footer.links}>
-    <ul>
-      {Object.values(links).map((l) => (
-        <li><a href={l.url} rel="me noopener">{l.label}</a> <span class="mono">{l.handle}</span></li>
-      ))}
-    </ul>
-  </nav>
   <p class="updated mono">{d.footer.updated}: {updatedAt ? formatDate(updatedAt, locale) : "—"}</p>
 </footer>
 <style>
   footer { margin-top: 3.5rem; padding: 2rem 0 3rem; border-top: 1px solid var(--line); }
   .motto { margin: 0 0 1.25rem; font-size: 1.05rem; color: var(--text); max-width: 50ch; }
-  ul { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 0.5rem 1.5rem; }
-  li .mono { color: var(--muted); font-size: 0.8rem; }
   .updated { margin: 1.5rem 0 0; color: var(--muted); font-size: 0.75rem; }
 </style>
