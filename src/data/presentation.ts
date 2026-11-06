@@ -2,7 +2,7 @@
 export type IncidentKind = "resolved" | "maintenance" | "degraded";
 
 export interface Incident {
-  /** YYYY-MM, or null when unknown (rendered as a placeholder) */
+  /** "YYYY-MM", "YYYY", or null when unknown (rendered as a placeholder) */
   date: string | null;
   kind: IncidentKind;
   es: string;
@@ -13,8 +13,8 @@ export interface Incident {
 /** Newest first. */
 export const incidents: Incident[] = [
   { date: "2026-11", kind: "resolved", es: "paintoxic.io pasa a producción", en: "paintoxic.io goes live" },
-  { date: null, kind: "resolved", es: "Lanzamiento de Kingdom, el IDP de Yuno", en: "Launched Kingdom, Yuno's IDP", todo: true },
-  { date: null, kind: "maintenance", es: "Entré a Yuno como DevOps & SRE", en: "Joined Yuno as DevOps & SRE", todo: true },
+  { date: null, kind: "resolved", es: "Lanzamiento de Kingdom v1, el IDP de Yuno, 2 meses después de entrar", en: "Launched Kingdom v1, Yuno's IDP, 2 months after joining", todo: true },
+  { date: "2022", kind: "maintenance", es: "Entré a Yuno como DevOps & SRE", en: "Joined Yuno as DevOps & SRE" },
   { date: "2019-07", kind: "maintenance", es: "Cuenta aprovisionada: github.com/paintoxic", en: "Account provisioned: github.com/paintoxic" },
 ];
 
@@ -27,6 +27,10 @@ export interface NowItem {
 
 export const now: NowItem[] = [
   { key: "building", es: "Kingdom, el IDP de Yuno", en: "Kingdom, Yuno's IDP" },
-  { key: "learning", es: "¿Qué estás aprendiendo?", en: "What are you learning?", todo: true },
+  {
+    key: "learning",
+    es: "Modelos de IA: manejo de modelos open-weight, agentes y agentic programming",
+    en: "AI models: running open-weight models, agents and agentic programming",
+  },
   { key: "playing", es: "Keys de Mythic+ como Holy Paladin", en: "Mythic+ keys as a Holy Paladin" },
 ];
