@@ -73,7 +73,6 @@ export const es: Dict = {
     ilvl: "Item level",
     profile: "Perfil en Raider.io",
   },
-  cta: { page: "Page the on-call" },
   metrics: {
     title: "Métricas",
     yearContrib: "Contribuciones · 12 meses",

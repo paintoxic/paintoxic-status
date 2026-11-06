@@ -20,7 +20,6 @@ const [place, onCall] = d.hero.location.split(" · ");
   </div>
   <p class="intro">{d.hero.intro}</p>
   <div class="cta">
-    <a class="page" href={links.linkedin.url} rel="me noopener"><span class="bell" aria-hidden="true">●</span>{d.cta.page}</a>
     <nav class="social" aria-label={d.footer.links}>
       {(Object.keys(links) as (keyof typeof links)[]).map((k) => (
         <a href={links[k].url} rel="me noopener" aria-label={`${links[k].label} · ${links[k].handle}`} title={`${links[k].label} · ${links[k].handle}`}><SocialIcon name={k} /></a>
@@ -41,12 +40,9 @@ const [place, onCall] = d.hero.location.split(" · ");
   .where { margin: 0; color: var(--text-2); font-size: 0.95rem; }
   .intro { color: var(--text-2); max-width: 62ch; margin: 1.25rem 0 1rem; }
   .cta { display: flex; flex-wrap: wrap; align-items: center; gap: 0.5rem 1.1rem; margin: 0 0 1.75rem; }
-  .page { display: inline-flex; align-items: center; gap: 0.55rem; padding: 0.55rem 1rem; border-radius: 6px; background: var(--accent); color: var(--bg); font-weight: 600; text-decoration: none; }
-  .page:hover { filter: brightness(1.1); }
   .social { display: inline-flex; gap: 0.4rem; }
   .social a { display: inline-grid; place-items: center; width: 2.4rem; height: 2.4rem; border-radius: 6px; border: 1px solid var(--line); color: var(--text-2); transition: color .15s, border-color .15s; }
   .social a:hover, .social a:focus-visible { color: var(--accent); border-color: var(--accent); }
-  .bell { color: var(--red); font-size: 0.7rem; }
   .banner { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem 0.9rem; padding: 1.1rem 1.25rem; border-radius: 8px; color: var(--bg); font-size: 1.15rem; }
   .banner.operational { background: var(--green); }
   .banner.degraded { background: var(--yellow); }

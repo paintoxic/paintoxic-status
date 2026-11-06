@@ -70,7 +70,6 @@ export const en = {
     ilvl: "Item level",
     profile: "Raider.io profile",
   },
-  cta: { page: "Page the on-call" },
   metrics: {
     title: "Metrics",
     yearContrib: "Contributions · 12 months",
