@@ -16,6 +16,7 @@ export const incidents: Incident[] = [
   { date: "2022-06", kind: "resolved", es: "Lanzamiento de Kingdom v1, el IDP de Yuno, 2 meses después de entrar", en: "Launched Kingdom v1, Yuno's IDP, 2 months after joining" },
   { date: "2022-04", kind: "maintenance", es: "Entré a Yuno como DevOps & SRE", en: "Joined Yuno as DevOps & SRE" },
   { date: "2019-07", kind: "maintenance", es: "Cuenta aprovisionada: github.com/paintoxic", en: "Account provisioned: github.com/paintoxic" },
+  { date: "2018", kind: "maintenance", es: "Fuerza Aérea Colombiana: desarrollo de simuladores de vuelo y software para cajas negras", en: "Colombian Air Force: built flight simulators and flight data recorder (black box) software" },
 ];
 
 export interface NowItem {
