@@ -13,8 +13,8 @@ export interface Incident {
 /** Newest first. */
 export const incidents: Incident[] = [
   { date: "2026-11", kind: "resolved", es: "paintoxic.io pasa a producción", en: "paintoxic.io goes live" },
-  { date: null, kind: "resolved", es: "Lanzamiento de Kingdom v1, el IDP de Yuno, 2 meses después de entrar", en: "Launched Kingdom v1, Yuno's IDP, 2 months after joining", todo: true },
-  { date: "2022", kind: "maintenance", es: "Entré a Yuno como DevOps & SRE", en: "Joined Yuno as DevOps & SRE" },
+  { date: "2022-06", kind: "resolved", es: "Lanzamiento de Kingdom v1, el IDP de Yuno, 2 meses después de entrar", en: "Launched Kingdom v1, Yuno's IDP, 2 months after joining" },
+  { date: "2022-04", kind: "maintenance", es: "Entré a Yuno como DevOps & SRE", en: "Joined Yuno as DevOps & SRE" },
   { date: "2019-07", kind: "maintenance", es: "Cuenta aprovisionada: github.com/paintoxic", en: "Account provisioned: github.com/paintoxic" },
 ];
 
