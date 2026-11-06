@@ -22,7 +22,7 @@ describe("personJsonLd", () => {
     expect(ld.sameAs).toEqual([
       "https://github.com/paintoxic",
       "https://www.linkedin.com/in/paintoxic/",
-      "https://twitter.com/paintox1c",
+      "https://www.instagram.com/paintoxic/",
     ]);
     expect(personJsonLd("es").jobTitle).toBe("Ingeniero DevOps & SRE");
     expect(personJsonLd("es").url).toBe("https://paintoxic.io/");

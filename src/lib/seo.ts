@@ -17,6 +17,6 @@ export function personJsonLd(locale: Locale) {
     image: `${SITE}/og.png`,
     worksFor: { "@type": "Organization", name: "Yuno", url: yunoUrl },
     homeLocation: { "@type": "Place", name: "Bogotá, Colombia" },
-    sameAs: [links.github.url, links.linkedin.url, links.x.url],
+    sameAs: [links.github.url, links.linkedin.url, links.instagram.url],
   };
 }
