@@ -1,0 +1,32 @@
+---
+import { t, type Locale } from "../i18n/index.ts";
+import { now } from "../data/presentation.ts";
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const d = t(locale);
+---
+<section aria-labelledby="now-h">
+  <h2 id="now-h">{d.now.title}</h2>
+  <p class="sub">{d.now.subtitle}</p>
+  <dl>
+    {now.map((item) => (
+      <div class:list={{ todo: item.todo }}>
+        <dt class="mono">{d.now[item.key]}</dt>
+        <dd>{item[locale]}{item.todo && <span class="flag mono">{d.incidents.todo}</span>}</dd>
+      </div>
+    ))}
+  </dl>
+</section>
+<style>
+  section { margin-top: 2.5rem; }
+  h2 { margin: 0; font-size: 1.15rem; }
+  .sub { margin: 0.15rem 0 0.75rem; color: var(--muted); font-size: 0.9rem; }
+  dl { margin: 0; border: 1px solid var(--line); border-radius: 8px; background: var(--surface-2); }
+  dl > div { display: grid; grid-template-columns: 9rem 1fr; gap: 1rem; padding: 0.8rem 1.25rem; align-items: baseline; }
+  dl > div + div { border-top: 1px solid var(--line); }
+  dt { color: var(--accent); font-size: 0.82rem; }
+  dd { margin: 0; color: var(--text); }
+  .todo dd { color: var(--muted); font-style: italic; }
+  .flag { white-space: nowrap; margin-left: 0.6rem; font-style: normal; font-size: 0.72rem; color: var(--yellow); border: 1px dashed var(--yellow); border-radius: 4px; padding: 0 0.35rem; }
+  @media (max-width: 520px) { dl > div { grid-template-columns: 1fr; gap: 0.15rem; } }
+</style>

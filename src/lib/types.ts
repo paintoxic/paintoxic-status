@@ -35,8 +35,15 @@ export interface ContributionDay {
   count: number;
 }
 
+export interface GitHubStats {
+  publicRepos: number;
+  /** contributions in the last 12 months (GitHub's default calendar range) */
+  yearContributions: number;
+}
+
 export interface Snapshot {
   updatedAt: string | null;
   characters: CharacterData[];
   contributions: ContributionDay[] | null;
+  stats?: GitHubStats | null;
 }

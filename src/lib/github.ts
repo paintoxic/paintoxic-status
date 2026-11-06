@@ -1,4 +1,4 @@
-import type { ContributionDay } from "./types.ts";
+import type { ContributionDay, GitHubStats } from "./types.ts";
 
 const QUERY = `query($login: String!, $from: DateTime!, $to: DateTime!) {
   user(login: $login) {
@@ -50,4 +50,46 @@ export async function fetchContributions(
   });
   if (!res.ok) throw new Error(`github ${res.status}`);
   return parseCalendar(await res.json());
+}
+
+const STATS_QUERY = `query($login: String!) {
+  user(login: $login) {
+    repositories(privacy: PUBLIC, ownerAffiliations: OWNER) { totalCount }
+    contributionsCollection { contributionCalendar { totalContributions } }
+  }
+}`;
+
+export function statsQuery(login: string): { query: string; variables: object } {
+  return { query: STATS_QUERY, variables: { login } };
+}
+
+interface StatsResponse {
+  errors?: { message: string }[];
+  data?: {
+    user: {
+      repositories: { totalCount: number };
+      contributionsCollection: { contributionCalendar: { totalContributions: number } };
+    } | null;
+  };
+}
+
+export function parseStats(json: unknown): GitHubStats {
+  const r = json as StatsResponse;
+  if (r?.errors?.length) throw new Error(`github graphql: ${r.errors.map((e) => e.message).join("; ")}`);
+  const user = r?.data?.user;
+  if (!user) throw new Error("github graphql: user not found");
+  return {
+    publicRepos: user.repositories.totalCount,
+    yearContributions: user.contributionsCollection.contributionCalendar.totalContributions,
+  };
+}
+
+export async function fetchStats(login: string, token: string, fetchFn: typeof fetch = fetch): Promise<GitHubStats> {
+  const res = await fetchFn("https://api.github.com/graphql", {
+    method: "POST",
+    headers: { Authorization: `bearer ${token}`, "User-Agent": "paintoxic-status", "Content-Type": "application/json" },
+    body: JSON.stringify(statsQuery(login)),
+  });
+  if (!res.ok) throw new Error(`github ${res.status}`);
+  return parseStats(await res.json());
 }
