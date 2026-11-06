@@ -78,9 +78,8 @@ export const es: Dict = {
     yearContrib: "Contribuciones · 12 meses",
     activeDays: "Días activos · 90 días",
     publicRepos: "Repos públicos",
-    bestScore: "Mejor score M+",
   },
-  now: { title: "Current deployment", subtitle: "Lo que está corriendo en producción ahora mismo", building: "Construyendo", learning: "Aprendiendo", playing: "Jugando" },
+  now: { title: "Current deployment", subtitle: "Lo que está corriendo en producción ahora mismo", building: "Construyendo", learning: "Aprendiendo" },
   incidents: {
     title: "Incidentes pasados",
     subtitle: "Mi trayectoria, en formato status page",

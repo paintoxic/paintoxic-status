@@ -5,7 +5,6 @@ interface Props {
   yearContrib: number | null;
   activeDays: number | null;
   publicRepos: number | null;
-  bestScore: number | null;
 }
 const { locale, ...m } = Astro.props;
 const d = t(locale);
@@ -15,7 +14,6 @@ const rows = [
   [d.metrics.yearContrib, m.yearContrib],
   [d.metrics.activeDays, m.activeDays],
   [d.metrics.publicRepos, m.publicRepos],
-  [d.metrics.bestScore, m.bestScore],
 ] as const;
 ---
 <section aria-labelledby="metrics-h">
@@ -31,15 +29,13 @@ const rows = [
 </section>
 <style>
   section { margin-top: 1.5rem; }
-  dl { margin: 0; display: grid; grid-template-columns: repeat(4, 1fr); border: 1px solid var(--line); border-radius: 8px; background: var(--surface-2); }
+  dl { margin: 0; display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--line); border-radius: 8px; background: var(--surface-2); }
   dl > div { padding: 0.8rem 1rem; }
   dl > div + div { border-left: 1px solid var(--line); }
   dt { color: var(--muted); font-size: 0.78rem; line-height: 1.3; }
   dd { margin: 0.3rem 0 0; font-size: 1.15rem; font-weight: 600; color: var(--text); }
-  @media (max-width: 640px) {
-    dl { grid-template-columns: 1fr 1fr; }
-    dl > div + div { border-left: 0; }
-    dl > div:nth-child(even) { border-left: 1px solid var(--line); }
-    dl > div:nth-child(n + 3) { border-top: 1px solid var(--line); }
+  @media (max-width: 520px) {
+    dl { grid-template-columns: 1fr; }
+    dl > div + div { border-left: 0; border-top: 1px solid var(--line); }
   }
 </style>

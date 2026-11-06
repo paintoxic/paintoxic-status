@@ -20,7 +20,7 @@ export const incidents: Incident[] = [
 ];
 
 export interface NowItem {
-  key: "building" | "learning" | "playing";
+  key: "building" | "learning";
   es: string;
   en: string;
   todo?: boolean;
@@ -33,5 +33,4 @@ export const now: NowItem[] = [
     es: "Modelos de IA: manejo de modelos open-weight, agentes y agentic programming",
     en: "AI models: running open-weight models, agents and agentic programming",
   },
-  { key: "playing", es: "Keys de Mythic+ como Holy Paladin", en: "Mythic+ keys as a Holy Paladin" },
 ];

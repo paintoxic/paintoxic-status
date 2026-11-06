@@ -20,7 +20,6 @@ export const links = {
   github: { label: "GitHub", handle: "paintoxic", url: "https://github.com/paintoxic" },
   linkedin: { label: "LinkedIn", handle: "in/paintoxic", url: "https://www.linkedin.com/in/paintoxic/" },
   instagram: { label: "Instagram", handle: "@paintoxic", url: "https://www.instagram.com/paintoxic/" },
-  raiderio: { label: "Raider.io", handle: "Paintóxic", url: "https://raider.io/characters/us/ragnaros/Paint%C3%B3xic" },
 } as const;
 
 export const yunoUrl = "https://www.y.uno/";

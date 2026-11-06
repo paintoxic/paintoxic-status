@@ -13,7 +13,7 @@ import NowDeployment from "./NowDeployment.astro";
 import Incidents from "./Incidents.astro";
 import { t, type Locale } from "../i18n/index.ts";
 import { pageTitle } from "../lib/seo.ts";
-import { characterKey, characterStatus, lastNDays, overallStatus, uptimeEndDate } from "../lib/status.ts";
+import { characterKey, lastNDays, overallStatus, uptimeEndDate } from "../lib/status.ts";
 import type { CharacterConfig, Snapshot, Status } from "../lib/types.ts";
 import snapshotJson from "../data/snapshot.json";
 import charactersJson from "../data/characters.json";
@@ -28,18 +28,14 @@ const byKey = new Map(snapshot.characters.map((c) => [c.key, c]));
 const cards = config.map((c) => ({ config: c, data: byKey.get(characterKey(c)) ?? null }));
 const today = new Date().toISOString().slice(0, 10);
 const days = lastNDays(snapshot.contributions, uptimeEndDate(snapshot.contributions, today));
-const statuses: Status[] = [
-  ...d.components.items.map(() => "operational" as const),
-  ...cards.map((c) => characterStatus(c.data)),
-];
+// Mythic+ is a fun fact: its cards show their own status but never flip the headline banner.
+const statuses: Status[] = d.components.items.map(() => "operational" as const);
 const overall = overallStatus(statuses);
 const hasContrib = snapshot.contributions !== null;
-const scores = cards.map((c) => c.data?.score).filter((n): n is number => typeof n === "number");
 const metrics = {
   yearContrib: snapshot.stats?.yearContributions ?? null,
   activeDays: hasContrib ? days.filter((x) => x.count > 0).length : null,
   publicRepos: snapshot.stats?.publicRepos ?? null,
-  bestScore: scores.length ? Math.max(...scores) : null,
 };
 const title = pageTitle(locale);
 ---

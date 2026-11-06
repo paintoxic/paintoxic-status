@@ -75,9 +75,8 @@ export const en = {
     yearContrib: "Contributions · 12 months",
     activeDays: "Active days · 90 days",
     publicRepos: "Public repos",
-    bestScore: "Best M+ score",
   },
-  now: { title: "Current deployment", subtitle: "What's running in production right now", building: "Building", learning: "Learning", playing: "Playing" },
+  now: { title: "Current deployment", subtitle: "What's running in production right now", building: "Building", learning: "Learning" },
   incidents: {
     title: "Past incidents",
     subtitle: "Career history, status-page style",
