@@ -97,7 +97,7 @@ export const es: Dict = {
       { name: "Respuesta a mensajes", target: "p95 < 24 h" },
       { name: "Deploys un viernes a las 5 p. m.", target: "0" },
       { name: "Incidentes sin postmortem", target: "0 · blameless" },
-      { name: "Café antes del primer standup", target: "≥ 1 taza" },
+      { name: "Alertas sin runbook", target: "0" },
     ],
   },
   regions: {

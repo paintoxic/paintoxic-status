@@ -94,7 +94,7 @@ export const en = {
       { name: "Message response time", target: "p95 < 24 h" },
       { name: "Deploys on Friday at 5 p.m.", target: "0" },
       { name: "Incidents without a postmortem", target: "0 · blameless" },
-      { name: "Coffee before the first standup", target: "≥ 1 cup" },
+      { name: "Alerts without a runbook", target: "0" },
     ],
   },
   regions: {
