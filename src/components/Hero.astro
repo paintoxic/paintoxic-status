@@ -26,11 +26,40 @@ const [place, onCall] = d.hero.location.split(" · ");
       ))}
     </nav>
   </div>
-  <div class:list={["banner", overall]} role="status">
+  <div class:list={["banner", overall]} role="status" data-incident={d.konami.incident} data-recovered={d.konami.recovered}>
     <span class="state"><span class="pulse" aria-hidden="true"></span><strong>{d.overall[overall]}</strong></span>
     <span class="tag mono">{d.hero.tagline}</span>
   </div>
 </section>
+<script>
+  // Easter egg: the Konami code triggers a short "major incident" that heals itself.
+  import { KONAMI, konamiStep } from "../lib/konami.ts";
+  const banner = document.querySelector<HTMLElement>(".banner[data-incident]");
+  const label = banner?.querySelector("strong");
+  if (banner && label) {
+    const original = label.textContent;
+    let pos = 0;
+    let busy = false;
+    addEventListener("keydown", (e) => {
+      if (e.target instanceof HTMLElement && e.target.closest("input, textarea, [contenteditable]")) return;
+      pos = konamiStep(pos, e.key);
+      if (pos < KONAMI.length || busy) return;
+      pos = 0;
+      busy = true;
+      banner.classList.add("incident");
+      label.textContent = banner.dataset.incident ?? "";
+      setTimeout(() => {
+        banner.classList.replace("incident", "recovered");
+        label.textContent = banner.dataset.recovered ?? "";
+        setTimeout(() => {
+          banner.classList.remove("recovered");
+          label.textContent = original;
+          busy = false;
+        }, 4000);
+      }, 5000);
+    });
+  }
+</script>
 <style>
   .hero { padding: 1.5rem 0 0.5rem; }
   .who { display: flex; gap: 1.1rem; align-items: center; }
@@ -46,10 +75,13 @@ const [place, onCall] = d.hero.location.split(" · ");
   .banner { display: flex; flex-wrap: wrap; align-items: center; gap: 0.6rem 0.9rem; padding: 1.1rem 1.25rem; border-radius: 8px; color: var(--bg); font-size: 1.15rem; }
   .banner.operational { background: var(--green); }
   .banner.degraded { background: var(--yellow); }
+  .banner.incident { background: var(--red); animation: shake 0.4s ease-in-out 2; }
+  .banner.recovered { background: var(--green); }
+  @keyframes shake { 25% { transform: translateX(-4px); } 75% { transform: translateX(4px); } }
   .banner .tag { margin-left: auto; font-size: 0.8rem; opacity: 0.75; }
   .state { display: inline-flex; align-items: center; gap: 0.9rem; }
   .pulse { flex: none;  width: 0.7rem; height: 0.7rem; border-radius: 50%; background: var(--bg); box-shadow: 0 0 0 0 rgb(26 27 38 / 0.5); animation: pulse 2.4s ease-out infinite; }
   @keyframes pulse { 70% { box-shadow: 0 0 0 10px rgb(26 27 38 / 0); } 100% { box-shadow: 0 0 0 0 rgb(26 27 38 / 0); } }
   @media (max-width: 520px) { .banner .tag { margin-left: 0; width: 100%; } }
-  @media (prefers-reduced-motion: reduce) { .pulse { animation: none; } }
+  @media (prefers-reduced-motion: reduce) { .pulse, .banner.incident { animation: none; } }
 </style>

@@ -6,7 +6,7 @@ const d = t(locale);
 ---
 <footer>
   <p class="motto">{d.hero.motto}</p>
-  <p class="updated mono">{d.footer.updated}: {updatedAt ? formatDate(updatedAt, locale) : "—"}</p>
+  <p class="updated mono">{d.footer.updated}: {updatedAt ? formatDate(updatedAt, locale) : "—"} · <a href="/api/status.json">{d.footer.api}</a></p>
 </footer>
 <style>
   footer { margin-top: 3.5rem; padding: 2rem 0 3rem; border-top: 1px solid var(--line); }

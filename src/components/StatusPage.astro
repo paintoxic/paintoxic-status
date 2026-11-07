@@ -11,9 +11,12 @@ import LangBanner from "./LangBanner.astro";
 import Metrics from "./Metrics.astro";
 import NowDeployment from "./NowDeployment.astro";
 import Incidents from "./Incidents.astro";
+import Slo from "./Slo.astro";
+import Regions from "./Regions.astro";
+import Compliance from "./Compliance.astro";
 import { t, type Locale } from "../i18n/index.ts";
 import { pageTitle } from "../lib/seo.ts";
-import { characterKey, lastNDays, overallStatus, uptimeEndDate } from "../lib/status.ts";
+import { characterKey, lastNDays, overallStatus, uptimeEndDate, uptimePercent } from "../lib/status.ts";
 import type { CharacterConfig, Snapshot, Status } from "../lib/types.ts";
 import snapshotJson from "../data/snapshot.json";
 import charactersJson from "../data/characters.json";
@@ -37,6 +40,7 @@ const metrics = {
   activeDays: hasContrib ? days.filter((x) => x.count > 0).length : null,
   publicRepos: snapshot.stats?.publicRepos ?? null,
 };
+const uptime = hasContrib ? uptimePercent(days) : null;
 const title = pageTitle(locale);
 ---
 <Base locale={locale} title={title} description={`${d.hero.role} — ${d.hero.tagline}`}>
@@ -48,7 +52,10 @@ const title = pageTitle(locale);
       <UptimeBar locale={locale} days={days} hasData={hasContrib} />
       <Metrics locale={locale} {...metrics} />
       <ComponentList locale={locale} />
+      <Slo locale={locale} uptime={uptime} />
       <NowDeployment locale={locale} />
+      <Regions locale={locale} />
+      <Compliance locale={locale} />
       <Incidents locale={locale} />
       <Dependencies locale={locale} />
       <MythicPlus locale={locale} cards={cards} />

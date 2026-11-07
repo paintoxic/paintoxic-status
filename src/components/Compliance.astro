@@ -1,0 +1,30 @@
+---
+import { t, type Locale } from "../i18n/index.ts";
+import { certifications } from "../data/presentation.ts";
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const d = t(locale);
+---
+{certifications.length > 0 && (
+  <section aria-labelledby="cmp-h">
+    <h2 id="cmp-h">{d.compliance.title}</h2>
+    <p class="sub">{d.compliance.subtitle}</p>
+    <ul>
+      {certifications.map((c) => {
+        const body = (<><span class="seal mono" aria-hidden="true">✓</span><span><strong>{c.name}</strong><span class="meta mono">{c.issuer}{c.date && ` · ${c.date}`}</span></span></>);
+        return <li>{c.url ? <a href={c.url} rel="noopener">{body}</a> : <div>{body}</div>}</li>;
+      })}
+    </ul>
+  </section>
+)}
+<style>
+  section { margin-top: 2.5rem; }
+  h2 { margin: 0; font-size: 1.15rem; }
+  .sub { margin: 0.15rem 0 0.75rem; color: var(--muted); font-size: 0.9rem; }
+  ul { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(13rem, 1fr)); gap: 0.6rem; }
+  li > a, li > div { display: flex; gap: 0.75rem; align-items: center; padding: 0.75rem 1rem; border: 1px solid var(--line); border-radius: 8px; background: var(--surface-2); color: var(--text); text-decoration: none; height: 100%; }
+  li > a:hover { border-color: var(--accent); }
+  .seal { display: grid; place-items: center; width: 2rem; height: 2rem; border-radius: 50%; border: 2px solid var(--green); color: var(--green); flex: none; }
+  strong { display: block; font-weight: 600; font-size: 0.95rem; }
+  .meta { color: var(--muted); font-size: 0.75rem; }
+</style>

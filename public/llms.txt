@@ -14,11 +14,13 @@ No need to page the on-call — all systems operational.
 
 - [Status (Spanish)](https://paintoxic.io/): default version
 - [Status (English)](https://paintoxic.io/en/): English version
+- [Status API](https://paintoxic.io/api/status.json): the same data as JSON (status, uptime, metrics, regions, links)
 
 ## Links
 
 - [GitHub](https://github.com/paintoxic): code and profile
 - [LinkedIn](https://www.linkedin.com/in/paintoxic/): professional profile
+- [Instagram](https://www.instagram.com/paintoxic/)
 - [Source code](https://github.com/paintoxic/paintoxic-status): how this page is built
 
 ## Optional

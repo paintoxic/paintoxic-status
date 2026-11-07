@@ -34,3 +34,32 @@ export const now: NowItem[] = [
     en: "AI models: running open-weight models, agents and agentic programming",
   },
 ];
+
+export interface Language {
+  code: string;
+  es: string;
+  en: string;
+  level: { es: string; en: string };
+}
+
+/** "Regions": languages spoken and the timezone on-call runs from. */
+export const regions = {
+  timezone: "America/Bogota",
+  utcOffset: "-05:00",
+  city: { es: "Bogotá", en: "Bogotá" },
+  languages: [
+    { code: "es", es: "Español", en: "Spanish", level: { es: "Nativo", en: "Native" } },
+    { code: "en", es: "Inglés", en: "English", level: { es: "Avanzado", en: "Advanced" } },
+  ] satisfies Language[],
+};
+
+export interface Certification {
+  name: string;
+  issuer: string;
+  /** "YYYY" or "YYYY-MM" */
+  date?: string;
+  url?: string;
+}
+
+/** Shown as "compliance" badges. The section stays hidden while this list is empty. */
+export const certifications: Certification[] = [];
