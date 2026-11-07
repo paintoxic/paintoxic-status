@@ -1,0 +1,45 @@
+---
+import { t, type Locale } from "../i18n/index.ts";
+import StatusDot from "./StatusDot.astro";
+interface Props { locale: Locale; uptime: number | null }
+const { locale, uptime } = Astro.props;
+const d = t(locale);
+const nf = new Intl.NumberFormat(locale === "es" ? "es-CO" : "en-US", { maximumFractionDigits: 1 });
+const githubMet = uptime !== null && uptime >= 50;
+---
+<section aria-labelledby="slo-h">
+  <h2 id="slo-h">{d.slo.title}</h2>
+  <p class="sub">{d.slo.subtitle}</p>
+  <ul class="list">
+    <li>
+      <span class="name">{d.slo.github.name}</span>
+      <span class="target mono">{d.slo.github.target}</span>
+      {uptime === null
+        ? <StatusDot status="no_data" label={d.status.no_data} />
+        : <StatusDot status={githubMet ? "operational" : "degraded"} label={locale === "es" ? `${nf.format(uptime)} %` : `${nf.format(uptime)}%`} />}
+    </li>
+    {d.slo.items.map((s) => (
+      <li>
+        <span class="name">{s.name}</span>
+        <span class="target mono">{s.target}</span>
+        <StatusDot status="operational" label={d.slo.met} />
+      </li>
+    ))}
+  </ul>
+</section>
+<style>
+  section { margin-top: 2.5rem; }
+  h2 { margin: 0; font-size: 1.15rem; }
+  .sub { margin: 0.15rem 0 0.75rem; color: var(--muted); font-size: 0.9rem; }
+  .list { list-style: none; margin: 0; padding: 0; border: 1px solid var(--line); border-radius: 8px; background: var(--surface-2); }
+  li { display: grid; grid-template-columns: 1fr auto 7.5rem; gap: 1rem; align-items: baseline; padding: 0.75rem 1.25rem; }
+  li + li { border-top: 1px solid var(--line); }
+  li > :global(.pill) { justify-self: end; }
+  .name { color: var(--text); }
+  .target { color: var(--text-2); font-size: 0.82rem; }
+  @media (max-width: 520px) {
+    li { grid-template-columns: 1fr auto; row-gap: 0.15rem; }
+    .target { grid-column: 1; grid-row: 2; }
+    li > :global(.pill) { grid-column: 2; grid-row: 1 / span 2; align-self: center; }
+  }
+</style>

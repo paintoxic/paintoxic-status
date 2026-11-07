@@ -3,8 +3,10 @@
 Source of [paintoxic.io](https://paintoxic.io): a personal page that looks like a service status page. The service being monitored is me.
 
 - **Uptime** is real GitHub activity from the last 90 days.
-- **Mythic+** status comes from Raider.io. If the latest key was depleted, the page reports *degraded*.
+- **Mythic+** (a fun fact at the bottom) comes from Raider.io. A depleted key marks only that card as *degraded*; it never changes the headline status.
 - It's in Spanish by default (`/`), with English at `/en/`.
+- `/api/status.json` serves the same data as JSON, rebuilt with the page.
+- Career timeline, current deployment, regions and certifications live in `src/data/presentation.ts`. The certifications section stays hidden while that list is empty.
 
 Built with [Astro](https://astro.build). GitHub Actions rebuilds it on every push to `master`, every Tuesday at 16:00 UTC (after the US weekly reset), and on manual runs.
 

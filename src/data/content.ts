@@ -9,8 +9,9 @@ export const stack = {
   os: ["Linux <3"],
   architecture: ["microservices", "event-driven", "clean architecture", "tdd"],
   cloud: ["AWS"],
-  cncf: ["argo-cd", "argo-workflows", "testkube"],
+  cncf: ["argo-cd", "argo-workflows", "argo-rollouts", "testkube"],
   monitoring: ["Prometheus", "Grafana", "ELK Stack"],
+  ai: ["SDD", "Claude Code", "Codex", "OpenCode", "OpenClaw"],
 } as const;
 
 export type GroupKey = keyof typeof stack;
@@ -18,8 +19,7 @@ export type GroupKey = keyof typeof stack;
 export const links = {
   github: { label: "GitHub", handle: "paintoxic", url: "https://github.com/paintoxic" },
   linkedin: { label: "LinkedIn", handle: "in/paintoxic", url: "https://www.linkedin.com/in/paintoxic/" },
-  x: { label: "X", handle: "@Paintox1c", url: "https://twitter.com/paintox1c" },
-  raiderio: { label: "Raider.io", handle: "Paintóxic", url: "https://raider.io/characters/us/ragnaros/Paint%C3%B3xic" },
+  instagram: { label: "Instagram", handle: "@paintoxic", url: "https://www.instagram.com/paintoxic/" },
 } as const;
 
 export const yunoUrl = "https://www.y.uno/";

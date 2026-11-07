@@ -40,3 +40,29 @@ describe("fetchContributions", () => {
     ).rejects.toThrow(/401/);
   });
 });
+
+import { parseStats, statsQuery } from "../src/lib/github.ts";
+
+describe("statsQuery / parseStats", () => {
+  it("asks for public repo count and last-year contributions", () => {
+    const q = statsQuery("paintoxic");
+    expect(q.query).toContain("repositories");
+    expect(q.query).toContain("totalContributions");
+    expect(q.variables).toEqual({ login: "paintoxic" });
+  });
+  it("parses the counts", () => {
+    const json = {
+      data: {
+        user: {
+          repositories: { totalCount: 9 },
+          contributionsCollection: { contributionCalendar: { totalContributions: 1234 } },
+        },
+      },
+    };
+    expect(parseStats(json)).toEqual({ publicRepos: 9, yearContributions: 1234 });
+  });
+  it("throws on graphql errors or missing user", () => {
+    expect(() => parseStats({ errors: [{ message: "x" }] })).toThrow();
+    expect(() => parseStats({ data: { user: null } })).toThrow();
+  });
+});

@@ -1,10 +1,10 @@
 // Fetches Raider.io + GitHub data and merges it into src/data/snapshot.json.
 // Runs with plain Node (native TS type stripping): `npm run fetch-data`.
 import { appendFileSync, readFileSync, writeFileSync } from "node:fs";
-import { fetchContributions } from "../src/lib/github.ts";
+import { fetchContributions, fetchStats } from "../src/lib/github.ts";
 import { fetchCharacter } from "../src/lib/raiderio.ts";
 import { mergeSnapshot, stabilizeTimestamp, type FetchResult } from "../src/lib/snapshot.ts";
-import type { CharacterConfig, CharacterData, ContributionDay, Snapshot } from "../src/lib/types.ts";
+import type { CharacterConfig, CharacterData, ContributionDay, GitHubStats, Snapshot } from "../src/lib/types.ts";
 
 const CHARACTERS = new URL("../src/data/characters.json", import.meta.url);
 const SNAPSHOT = new URL("../src/data/snapshot.json", import.meta.url);
@@ -20,11 +20,15 @@ const now = new Date();
 const today = now.toISOString().slice(0, 10);
 const token = process.env.GH_CONTRIB_TOKEN || process.env.GITHUB_TOKEN || "";
 
-const [charResults, contribResult] = await Promise.all([
+const noToken = { ok: false as const, error: "skipped: no token" };
+const [charResults, contribResult, statsResult] = await Promise.all([
   Promise.allSettled(config.map((c) => fetchCharacter(c))),
   token
     ? Promise.allSettled([fetchContributions(GITHUB_LOGIN, token, today)]).then(([r]) => toResult(r!))
-    : Promise.resolve<FetchResult<ContributionDay[]>>({ ok: false, error: "skipped: no token" }),
+    : Promise.resolve<FetchResult<ContributionDay[]>>(noToken),
+  token
+    ? Promise.allSettled([fetchStats(GITHUB_LOGIN, token)]).then(([r]) => toResult(r!))
+    : Promise.resolve<FetchResult<GitHubStats>>(noToken),
 ]);
 
 const { snapshot: merged, warnings } = mergeSnapshot(
@@ -33,6 +37,7 @@ const { snapshot: merged, warnings } = mergeSnapshot(
   charResults.map((r) => toResult<CharacterData>(r)),
   contribResult,
   now.toISOString(),
+  statsResult,
 );
 const snapshot = stabilizeTimestamp(previous, merged);
 

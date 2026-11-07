@@ -64,3 +64,23 @@ describe("stabilizeTimestamp", () => {
     expect(stabilizeTimestamp(prev, next).updatedAt).toBe(NOW);
   });
 });
+
+describe("mergeSnapshot stats", () => {
+  const stats = { publicRepos: 9, yearContributions: 1234 };
+  it("stores fetched stats", () => {
+    const { snapshot } = mergeSnapshot(empty, [], [], ok(days), NOW, ok(stats));
+    expect(snapshot.stats).toEqual(stats);
+  });
+  it("keeps previous stats on failure, with a warning", () => {
+    const prev = { ...empty, stats };
+    const { snapshot, warnings } = mergeSnapshot(prev, [], [], ok(days), NOW, fail("github 502"));
+    expect(snapshot.stats).toEqual(stats);
+    expect(warnings.some((w) => /github stats.*using snapshot/.test(w))).toBe(true);
+  });
+  it("keeps previous stats silently when not requested", () => {
+    const prev = { ...empty, stats };
+    const { snapshot, warnings } = mergeSnapshot(prev, [], [], ok(days), NOW);
+    expect(snapshot.stats).toEqual(stats);
+    expect(warnings).toEqual([]);
+  });
+});

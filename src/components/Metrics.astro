@@ -1,0 +1,41 @@
+---
+import { t, type Locale } from "../i18n/index.ts";
+interface Props {
+  locale: Locale;
+  yearContrib: number | null;
+  activeDays: number | null;
+  publicRepos: number | null;
+}
+const { locale, ...m } = Astro.props;
+const d = t(locale);
+const nf = new Intl.NumberFormat(locale === "es" ? "es-CO" : "en-US", { maximumFractionDigits: 1 });
+const fmt = (n: number | null) => (n === null ? "—" : nf.format(n));
+const rows = [
+  [d.metrics.yearContrib, m.yearContrib],
+  [d.metrics.activeDays, m.activeDays],
+  [d.metrics.publicRepos, m.publicRepos],
+] as const;
+---
+<section aria-labelledby="metrics-h">
+  <h2 id="metrics-h" class="sr-only">{d.metrics.title}</h2>
+  <dl>
+    {rows.map(([label, value]) => (
+      <div>
+        <dt>{label}</dt>
+        <dd class="mono">{fmt(value)}</dd>
+      </div>
+    ))}
+  </dl>
+</section>
+<style>
+  section { margin-top: 1.5rem; }
+  dl { margin: 0; display: grid; grid-template-columns: repeat(3, 1fr); border: 1px solid var(--line); border-radius: 8px; background: var(--surface-2); }
+  dl > div { padding: 0.8rem 1rem; }
+  dl > div + div { border-left: 1px solid var(--line); }
+  dt { color: var(--muted); font-size: 0.78rem; line-height: 1.3; }
+  dd { margin: 0.3rem 0 0; font-size: 1.15rem; font-weight: 600; color: var(--text); }
+  @media (max-width: 520px) {
+    dl { grid-template-columns: 1fr; }
+    dl > div + div { border-left: 0; border-top: 1px solid var(--line); }
+  }
+</style>

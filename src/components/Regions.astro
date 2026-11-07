@@ -1,0 +1,68 @@
+---
+import { t, type Locale } from "../i18n/index.ts";
+import { regions } from "../data/presentation.ts";
+import StatusDot from "./StatusDot.astro";
+interface Props { locale: Locale }
+const { locale } = Astro.props;
+const d = t(locale);
+const tag = locale === "es" ? "es-CO" : "en-US";
+---
+<section aria-labelledby="reg-h">
+  <h2 id="reg-h">{d.regions.title}</h2>
+  <p class="sub">{d.regions.subtitle}</p>
+  <ul class="list">
+    {regions.languages.map((l) => (
+      <li>
+        <span class="code mono">{l.code}</span>
+        <span class="name">{l[locale]} <span class="level">· {l.level[locale]}</span></span>
+        <StatusDot status="operational" label={d.status.operational} />
+      </li>
+    ))}
+    <li class="tz" data-tz={regions.timezone} data-locale={tag} data-in={d.regions.inHours} data-off={d.regions.offHours}>
+      <span class="code mono">tz</span>
+      <span class="name">{regions.city[locale]} <span class="level mono">UTC{regions.utcOffset.replace(/^-0?/, "−").replace(":00", "")}</span><span class="clock level mono" hidden> · <time></time> {d.regions.localTime}</span></span>
+      <span class="hours pill mono" hidden><span class="dot" aria-hidden="true"></span><span class="label"></span></span>
+    </li>
+  </ul>
+</section>
+<script>
+  // Live local time in the on-call timezone, plus whether it's business hours there (Mon–Fri, 9–18).
+  for (const el of document.querySelectorAll<HTMLElement>(".tz[data-tz]")) {
+    const { tz, locale, in: inHours, off } = el.dataset;
+    const clock = el.querySelector<HTMLElement>(".clock");
+    const time = el.querySelector("time");
+    const hours = el.querySelector<HTMLElement>(".hours");
+    const label = el.querySelector<HTMLElement>(".hours .label");
+    if (!tz || !clock || !time || !hours || !label) continue;
+    const fmt = new Intl.DateTimeFormat(locale, { hour: "2-digit", minute: "2-digit", timeZone: tz });
+    const parts = new Intl.DateTimeFormat("en-US", { weekday: "short", hour: "numeric", hourCycle: "h23", timeZone: tz });
+    const tick = () => {
+      const now = new Date();
+      time.textContent = fmt.format(now);
+      const p = Object.fromEntries(parts.formatToParts(now).map((x) => [x.type, x.value]));
+      const h = Number(p.hour);
+      const working = !["Sat", "Sun"].includes(p.weekday ?? "") && h >= 9 && h < 18;
+      label.textContent = working ? inHours ?? "" : off ?? "";
+      hours.classList.toggle("on", working);
+      clock.hidden = false;
+      hours.hidden = false;
+    };
+    tick();
+    setInterval(tick, 30_000);
+  }
+</script>
+<style>
+  section { margin-top: 2.5rem; }
+  h2 { margin: 0; font-size: 1.15rem; }
+  .sub { margin: 0.15rem 0 0.75rem; color: var(--muted); font-size: 0.9rem; }
+  .list { list-style: none; margin: 0; padding: 0; border: 1px solid var(--line); border-radius: 8px; background: var(--surface-2); }
+  li { display: grid; grid-template-columns: 2.5rem 1fr auto; gap: 0.75rem; align-items: baseline; padding: 0.75rem 1.25rem; }
+  li + li { border-top: 1px solid var(--line); }
+  .code { color: var(--accent); font-size: 0.82rem; }
+  .name { color: var(--text); }
+  .level { color: var(--text-2); font-size: 0.88rem; }
+  .pill { display: inline-flex; align-items: center; gap: 0.45em; font-size: 0.8rem; white-space: nowrap; color: var(--muted); }
+  .pill[hidden] { display: none; }
+  .pill.on { color: var(--green); }
+  .dot { width: 0.55em; height: 0.55em; border-radius: 50%; background: currentColor; }
+</style>

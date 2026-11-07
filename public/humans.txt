@@ -9,7 +9,7 @@
   Role: DevOps & SRE @ Yuno
   Location: Bogota, Colombia
   GitHub: github.com/paintoxic
-  X: @Paintox1c
+  Instagram: instagram.com/paintoxic
 
 /* SITE */
   Last update: auto, every Tuesday after the weekly reset

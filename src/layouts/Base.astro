@@ -49,13 +49,13 @@ const jsonLd = JSON.stringify(personJsonLd(locale));
     <meta property="og:image:alt" content="paintoxic.io / status — All systems operational" />
     <meta property="profile:username" content="paintoxic" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:site" content="@Paintox1c" />
     <script type="application/ld+json" set:html={jsonLd} />
     <slot name="head" />
     <link rel="canonical" href={url} />
     <link rel="alternate" hreflang="es" href="https://paintoxic.io/" />
     <link rel="alternate" hreflang="en" href="https://paintoxic.io/en/" />
     <link rel="alternate" hreflang="x-default" href="https://paintoxic.io/" />
+    <link rel="alternate" type="application/json" title="Status API" href="/api/status.json" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="preload" href={sans400} as="font" type="font/woff2" crossorigin />
     <link rel="preload" href={sans700} as="font" type="font/woff2" crossorigin />

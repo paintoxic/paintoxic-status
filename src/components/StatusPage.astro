@@ -8,9 +8,15 @@ import MythicPlus from "./MythicPlus.astro";
 import Dependencies from "./Dependencies.astro";
 import Footer from "./Footer.astro";
 import LangBanner from "./LangBanner.astro";
+import Metrics from "./Metrics.astro";
+import NowDeployment from "./NowDeployment.astro";
+import Incidents from "./Incidents.astro";
+import Slo from "./Slo.astro";
+import Regions from "./Regions.astro";
+import Compliance from "./Compliance.astro";
 import { t, type Locale } from "../i18n/index.ts";
 import { pageTitle } from "../lib/seo.ts";
-import { characterKey, characterStatus, lastNDays, overallStatus, uptimeEndDate } from "../lib/status.ts";
+import { characterKey, lastNDays, overallStatus, uptimeEndDate, uptimePercent } from "../lib/status.ts";
 import type { CharacterConfig, Snapshot, Status } from "../lib/types.ts";
 import snapshotJson from "../data/snapshot.json";
 import charactersJson from "../data/characters.json";
@@ -25,11 +31,16 @@ const byKey = new Map(snapshot.characters.map((c) => [c.key, c]));
 const cards = config.map((c) => ({ config: c, data: byKey.get(characterKey(c)) ?? null }));
 const today = new Date().toISOString().slice(0, 10);
 const days = lastNDays(snapshot.contributions, uptimeEndDate(snapshot.contributions, today));
-const statuses: Status[] = [
-  ...d.components.items.map(() => "operational" as const),
-  ...cards.map((c) => characterStatus(c.data)),
-];
+// Mythic+ is a fun fact: its cards show their own status but never flip the headline banner.
+const statuses: Status[] = d.components.items.map(() => "operational" as const);
 const overall = overallStatus(statuses);
+const hasContrib = snapshot.contributions !== null;
+const metrics = {
+  yearContrib: snapshot.stats?.yearContributions ?? null,
+  activeDays: hasContrib ? days.filter((x) => x.count > 0).length : null,
+  publicRepos: snapshot.stats?.publicRepos ?? null,
+};
+const uptime = hasContrib ? uptimePercent(days) : null;
 const title = pageTitle(locale);
 ---
 <Base locale={locale} title={title} description={`${d.hero.role} — ${d.hero.tagline}`}>
@@ -38,10 +49,16 @@ const title = pageTitle(locale);
     <Header locale={locale} />
     <main>
       <Hero locale={locale} overall={overall} />
-      <UptimeBar locale={locale} days={days} hasData={snapshot.contributions !== null} />
+      <UptimeBar locale={locale} days={days} hasData={hasContrib} />
+      <Metrics locale={locale} {...metrics} />
       <ComponentList locale={locale} />
-      <MythicPlus locale={locale} cards={cards} />
+      <Slo locale={locale} uptime={uptime} />
+      <NowDeployment locale={locale} />
+      <Regions locale={locale} />
+      <Compliance locale={locale} />
+      <Incidents locale={locale} />
       <Dependencies locale={locale} />
+      <MythicPlus locale={locale} cards={cards} />
     </main>
     <Footer locale={locale} updatedAt={snapshot.updatedAt} />
   </div>

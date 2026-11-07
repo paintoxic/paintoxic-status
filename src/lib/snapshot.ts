@@ -1,5 +1,5 @@
 import { characterKey } from "./status.ts";
-import type { CharacterConfig, CharacterData, ContributionDay, Snapshot } from "./types.ts";
+import type { CharacterConfig, CharacterData, ContributionDay, GitHubStats, Snapshot } from "./types.ts";
 
 export type FetchResult<T> = { ok: true; value: T } | { ok: false; error: string };
 
@@ -9,6 +9,7 @@ export function mergeSnapshot(
   characters: FetchResult<CharacterData>[],
   contributions: FetchResult<ContributionDay[]>,
   now: string,
+  stats?: FetchResult<GitHubStats>,
 ): { snapshot: Snapshot; warnings: string[] } {
   const warnings: string[] = [];
   const prevByKey = new Map(previous.characters.map((c) => [c.key, c]));
@@ -34,7 +35,14 @@ export function mergeSnapshot(
     warnings.push(`github contributions: ${contributions.error} (${contrib ? "using snapshot" : "no data"})`);
   }
 
-  return { snapshot: { updatedAt: now, characters: merged, contributions: contrib }, warnings };
+  let nextStats: GitHubStats | null = previous.stats ?? null;
+  if (stats?.ok) {
+    nextStats = stats.value;
+  } else if (stats) {
+    warnings.push(`github stats: ${stats.error} (${nextStats ? "using snapshot" : "no data"})`);
+  }
+
+  return { snapshot: { updatedAt: now, characters: merged, contributions: contrib, stats: nextStats }, warnings };
 }
 
 /** Keep the previous `updatedAt` when nothing but the timestamp changed (no git diff on no-op runs). */
