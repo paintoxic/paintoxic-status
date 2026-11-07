@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-06T01:57:34.634Z",
+  "updatedAt": "2026-11-07T13:31:41.608Z",
   "characters": [
     {
       "key": "us/ragnaros/paintóxic",
@@ -12,7 +12,7 @@
       "thumbnailUrl": "https://render.worldofwarcraft.com/us/character/ragnaros/182/136805814-avatar.jpg?alt=/wow/static/images/2d/avatar/10-1.jpg",
       "profileUrl": "https://raider.io/characters/us/ragnaros/Paintóxic",
       "score": 3144.9,
-      "itemLevel": 323,
+      "itemLevel": 323.438,
       "lastRun": {
         "dungeon": "Kings' Rest",
         "level": 14,
@@ -43,10 +43,6 @@
     }
   ],
   "contributions": [
-    {
-      "date": "2026-08-09",
-      "count": 0
-    },
     {
       "date": "2026-08-10",
       "count": 15
@@ -81,19 +77,19 @@
     },
     {
       "date": "2026-08-18",
-      "count": 3
+      "count": 1
     },
     {
       "date": "2026-08-19",
-      "count": 5
+      "count": 7
     },
     {
       "date": "2026-08-20",
-      "count": 4
+      "count": 3
     },
     {
       "date": "2026-08-21",
-      "count": 4
+      "count": 5
     },
     {
       "date": "2026-08-22",
@@ -185,11 +181,11 @@
     },
     {
       "date": "2026-09-13",
-      "count": 16
+      "count": 15
     },
     {
       "date": "2026-09-14",
-      "count": 14
+      "count": 15
     },
     {
       "date": "2026-09-15",
@@ -333,11 +329,11 @@
     },
     {
       "date": "2026-10-20",
-      "count": 22
+      "count": 19
     },
     {
       "date": "2026-10-21",
-      "count": 8
+      "count": 10
     },
     {
       "date": "2026-10-22",
@@ -345,7 +341,7 @@
     },
     {
       "date": "2026-10-23",
-      "count": 3
+      "count": 4
     },
     {
       "date": "2026-10-24",
@@ -365,11 +361,11 @@
     },
     {
       "date": "2026-10-28",
-      "count": 49
+      "count": 48
     },
     {
       "date": "2026-10-29",
-      "count": 4
+      "count": 5
     },
     {
       "date": "2026-10-30",
@@ -385,7 +381,7 @@
     },
     {
       "date": "2026-11-02",
-      "count": 8
+      "count": 7
     },
     {
       "date": "2026-11-03",
@@ -393,7 +389,7 @@
     },
     {
       "date": "2026-11-04",
-      "count": 4
+      "count": 5
     },
     {
       "date": "2026-11-05",
@@ -401,11 +397,15 @@
     },
     {
       "date": "2026-11-06",
-      "count": 0
+      "count": 12
+    },
+    {
+      "date": "2026-11-07",
+      "count": 3
     }
   ],
   "stats": {
     "publicRepos": 10,
-    "yearContributions": 2101
+    "yearContributions": 2116
   }
 }
