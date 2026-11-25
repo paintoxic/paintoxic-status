@@ -1,5 +1,5 @@
 {
-  "updatedAt": "2026-11-17T23:18:49.438Z",
+  "updatedAt": "2026-11-25T00:19:11.000Z",
   "characters": [
     {
       "key": "us/ragnaros/paintóxic",
@@ -11,14 +11,14 @@
       "spec": "Holy",
       "thumbnailUrl": "https://render.worldofwarcraft.com/us/character/ragnaros/182/136805814-avatar.jpg?alt=/wow/static/images/2d/avatar/10-1.jpg",
       "profileUrl": "https://raider.io/characters/us/ragnaros/Paintóxic",
-      "score": 3184.6,
-      "itemLevel": 324,
+      "score": 3187,
+      "itemLevel": 324.75,
       "lastRun": {
-        "dungeon": "Voidscar Arena",
+        "dungeon": "Ruby Life Pools",
         "level": 14,
-        "upgrades": 2,
-        "completedAt": "2026-11-16T03:48:14.000Z",
-        "url": "https://raider.io/mythic-plus-runs/season-mn-2/25820761-14-voidscar-arena"
+        "upgrades": 1,
+        "completedAt": "2026-11-21T03:19:48.000Z",
+        "url": "https://raider.io/mythic-plus-runs/season-mn-2/26144398-14-ruby-life-pools"
       }
     },
     {
@@ -43,38 +43,6 @@
     }
   ],
   "contributions": [
-    {
-      "date": "2026-08-20",
-      "count": 3
-    },
-    {
-      "date": "2026-08-21",
-      "count": 5
-    },
-    {
-      "date": "2026-08-22",
-      "count": 1
-    },
-    {
-      "date": "2026-08-23",
-      "count": 0
-    },
-    {
-      "date": "2026-08-24",
-      "count": 4
-    },
-    {
-      "date": "2026-08-25",
-      "count": 3
-    },
-    {
-      "date": "2026-08-26",
-      "count": 0
-    },
-    {
-      "date": "2026-08-27",
-      "count": 4
-    },
     {
       "date": "2026-08-28",
       "count": 0
@@ -401,11 +369,43 @@
     },
     {
       "date": "2026-11-17",
-      "count": 66
+      "count": 75
+    },
+    {
+      "date": "2026-11-18",
+      "count": 4
+    },
+    {
+      "date": "2026-11-19",
+      "count": 5
+    },
+    {
+      "date": "2026-11-20",
+      "count": 7
+    },
+    {
+      "date": "2026-11-21",
+      "count": 0
+    },
+    {
+      "date": "2026-11-22",
+      "count": 10
+    },
+    {
+      "date": "2026-11-23",
+      "count": 7
+    },
+    {
+      "date": "2026-11-24",
+      "count": 3
+    },
+    {
+      "date": "2026-11-25",
+      "count": 0
     }
   ],
   "stats": {
     "publicRepos": 10,
-    "yearContributions": 2485
+    "yearContributions": 2519
   }
 }
